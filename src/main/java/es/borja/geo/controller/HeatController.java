@@ -1,28 +1,66 @@
 package es.borja.geo.controller;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import es.borja.geo.model.NimbeesQuery;
+
+import es.borja.geo.rest.EndpointInterface;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 @Controller
+@PropertySource(value={"classpath:application.properties"})
 public class HeatController {
-	@RequestMapping(value = "/geo/newHeatQuery", method = RequestMethod.GET)
-	public String heatForm(NimbeesQuery query) {
-		return "newHeatQuery";
+	@RequestMapping(value = "/heat", method = RequestMethod.GET)
+	public ModelAndView getHeatForm() {
+		ModelAndView model = new ModelAndView("heat");
+		
+		return model;
 	}
 	
-	@RequestMapping(value = "/geo/newHeatQuery", method = RequestMethod.POST)
-	public String heatForm(NimbeesQuery query, BindingResult bindingResult, RedirectAttributes redirectAttributes, ModelMap model) {
-		try{
-			String q = query.getLat() + ';' + query.getlon();
-			return q;
-		} catch (Exception e) {
-			return "newHeatQuery";
-		}
+	@RequestMapping(value = "/submitHeatForm", method = RequestMethod.POST)
+	public ModelAndView submitHeatForm(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("radius") String radius, @RequestParam("dateFrom") String dateFrom, @RequestParam("dateTo") String dateTo ) {
+		ModelAndView model = new ModelAndView("heatResult");
+	    RestAdapter restAdapter;
+	    restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://api.nimbees.com/nimbees_platform_server_api/")
+                .build();
+		EndpointInterface apiService = restAdapter.create(EndpointInterface.class);
+		JSONObject outputJsonObj = new JSONObject();
+		JSONObject content = new JSONObject();
+		
+		String q = lat + ";" + lon;
+		content.put("type","CUSTOM");
+		content.put("message", q);
+		outputJsonObj.put("content", content);
+		
+		apiService.sendNotification(outputJsonObj, new Callback<Integer>() {
+            @Override
+            public void success(Integer result, Response response) {
+            	System.out.println("success");
+            }
+
+			@Override
+			public void failure(RetrofitError error) {
+				System.out.println("error");
+				
+			}
+
+        });
+
+		model.addObject("msg", "Submitted: " + q);
+		return model;
+
 	}
+	
+	
 }
