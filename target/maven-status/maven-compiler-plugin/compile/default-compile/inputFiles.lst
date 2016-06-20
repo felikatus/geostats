@@ -2,6 +2,7 @@ C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\model\Location.java
 C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\service\ILocationService.java
 C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\configuration\HibernateConfiguration.java
 C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\dao\LocationDAO.java
+C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\rest\EndpointInterface.java
 C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\dao\AbstractDAO.java
 C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\configuration\AppConfig.java
 C:\Users\Borja\workspace\geo\src\main\java\es\borja\geo\dao\ILocationDAO.java

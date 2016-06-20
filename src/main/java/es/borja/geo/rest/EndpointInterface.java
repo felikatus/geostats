@@ -12,6 +12,6 @@ public interface EndpointInterface {
 	@Headers({"Authorization: Basic MmY2UmI2QktrOVRoM2s0MDpoTWk2OTM1cDE0NjBaVGYx",
 			"Content-Type: application/json"})
     @POST("/sendNotification/")
-    void sendNotification(@Body JSONObject outputJsonObj, Callback<Integer> u);
+    void sendNotification(@Body JSONObject outputJsonObj, Callback<JSONObject> callback);
 
 }

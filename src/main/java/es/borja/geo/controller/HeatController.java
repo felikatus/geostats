@@ -43,11 +43,8 @@ public class HeatController {
 		content.put("message", q);
 		outputJsonObj.put("content", content);
 		
-		apiService.sendNotification(outputJsonObj, new Callback<Integer>() {
-            @Override
-            public void success(Integer result, Response response) {
-            	System.out.println("success");
-            }
+		apiService.sendNotification(outputJsonObj, new Callback<JSONObject>() {
+
 
 			@Override
 			public void failure(RetrofitError error) {
@@ -55,9 +52,15 @@ public class HeatController {
 				
 			}
 
+			@Override
+			public void success(JSONObject arg0, Response arg1) {
+				System.out.println("success");
+				
+			}
+
         });
 
-		model.addObject("msg", "Submitted: " + q);
+		model.addObject("message", "Submitted: " + q);
 		return model;
 
 	}

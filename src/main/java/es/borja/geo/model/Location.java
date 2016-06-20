@@ -1,6 +1,8 @@
 package es.borja.geo.model;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,18 +12,21 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name="Location")
-public class Location {
-	
+public class Location implements Serializable {
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
+	@Id
 	@Column(name="time")
 	private String time;	
 	
+	@Id
 	@Column(name="lat")
 	private Double lat;	
 	
+	@Id
 	@Column(name="lon")
 	private Double lon;
 	
