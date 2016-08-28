@@ -1,7 +1,9 @@
 package es.borja.geo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.borja.geo.dao.ILocationDAO;
@@ -9,7 +11,7 @@ import es.borja.geo.model.Location;
 import es.borja.geo.service.ILocationService;
 
 
-@Component
+@Service("ILocationService")
 @Transactional
 public class LocationService implements ILocationService{
 
@@ -19,7 +21,12 @@ public class LocationService implements ILocationService{
 	@Override
 	public void save(Location data) {
 		locationDAO.save(data);
-		
 	}
+	
+    public Location[] findAllLocations() {
+    	List<Location> results = locationDAO.getData();
+    	Location[] locations = results.toArray(new Location[results.size()]);
+        return locations;
+    }
 
 }

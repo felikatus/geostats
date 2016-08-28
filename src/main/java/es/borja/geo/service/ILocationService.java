@@ -1,5 +1,7 @@
 package es.borja.geo.service;
 
+import java.util.List;
+
 import es.borja.geo.model.Location;
 
 public interface ILocationService {
@@ -8,5 +10,7 @@ public interface ILocationService {
 	 * @param data
 	 */
 	public void save(Location data);
+	
+	 public Location[] findAllLocations();
 
 }

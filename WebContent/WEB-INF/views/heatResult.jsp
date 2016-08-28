@@ -11,17 +11,19 @@
 	    
     <script>
 		  myModel=[];
-		  myModel.paramOne='${message}';
+		  myModel.lat='${lat}';
+		  myModel.lon='${lon}';
+		  myModel.radius='${radius}';
 	</script>
 	
     <spring:url value="/resources/js/jquery-3.0.0.js" var="jqueryJs" />
     <spring:url value="/resources/js/map.js" var="mapJs" />
     <spring:url value="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2iNxTB_yhdK6DmBRid3bj4QtCmfxRHS8&signed_in=true&libraries=visualization&callback=initMap" var="gmapi" />
-    <spring:url value="/resources/css/main.css" var="mainCSS" />
+    <spring:url value="/resources/css/results.css" var="resultsCSS" />
 
     <script src="${jqueryJs}"></script>
     <script src="${mapJs}"></script>
-    <link href="${mainCSS}" rel="stylesheet" />
+    <link href="${resultsCSS}" rel="stylesheet" />
     
 
 </head>

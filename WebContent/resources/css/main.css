@@ -5,6 +5,27 @@ html, body {
   margin: 0;
   padding: 0;
 }
-#map {
-  height: 100%;
+
+.queries a {
+	color: white;
+    padding: 2%;
+    margin: 0.5%;
+    background: #4183d8;
+    text-decoration: none;
+    font-family: fantasy;
+    font-size: 1.3em;
+    width: 20%;
+    display: block;
+    float: left;
+    text-align: center;
+}
+
+.queries a:hover {	
+    background: #4343c3;
+}
+
+h1 {
+    font-family: Arial;
+    font-size: 3em;
+    text-align: center;
 }

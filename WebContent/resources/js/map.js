@@ -5,8 +5,8 @@ var map, heatmap;
 
 function initMap() {
 	  map = new google.maps.Map(document.getElementById('map'), {
-		    zoom: 13,
-		    center: {lat: 37.775, lng: -122.434},
+		    zoom: 15,
+		    center: {lat: parseFloat(myModel.lat), lng: parseFloat(myModel.lon)},
 		    mapTypeId: google.maps.MapTypeId.SATELLITE
 		  });
 	  heatmap = new google.maps.visualization.HeatmapLayer({
@@ -19,23 +19,25 @@ function initMap() {
 
 
 function getPoints() {
-	  return [
-	    { location: new google.maps.LatLng(37.782745, -122.444586), weight: 50  },
-	    { location: new google.maps.LatLng(37.782842, -122.443688), weight: 5   },
-	    { location: new google.maps.LatLng(37.782919, -122.442815), weight: 5   },
-	    { location: new google.maps.LatLng(38.782992, -122.442112), weight: 500 },
-	    { location: new google.maps.LatLng(37.783100, -122.441461), weight: 5   },
-	    { location: new google.maps.LatLng(37.783206, -122.440829), weight: 100 }
+	var result = [];
+	var locations = myModel.locations;
+	locations = locations.slice(1, -1);
+	locations = locations.split(",");
+	for (i in locations) {
+		loc = locations[i].split("#");
+		var point = {
+				location: new google.maps.LatLng(loc[0], loc[1]), 
+				weight: loc[2]
+		}
+		result.push(point);
 
-
-	  ];
+	}
+	alert(result);
+	  return result;
 }
 	
 jQuery(document).ready(function($) {
 	
 
-
-	$('#msg').html(myModel.paramOne)
-	alert(myModel.paramOne)
 
 });

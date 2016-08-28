@@ -1,4 +1,5 @@
 es\borja\geo\configuration\HibernateConfiguration.class
+es\borja\geo\configuration\AppInitializer.class
 es\borja\geo\dao\LocationDAO.class
 es\borja\geo\dao\ILocationDAO.class
 es\borja\geo\model\Location.class
@@ -6,6 +7,7 @@ es\borja\geo\service\LocationService.class
 es\borja\geo\controller\LocationController.class
 es\borja\geo\dao\AbstractDAO.class
 es\borja\geo\model\NimbeesQuery.class
+es\borja\geo\configuration\AppConfig.class
 es\borja\geo\rest\EndpointInterface.class
 es\borja\geo\bean\LocationBean.class
 es\borja\geo\controller\HeatController$1.class

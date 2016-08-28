@@ -7,16 +7,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
+ <spring:url value="/resources/css/main.css" var="mainCSS" />
+ <link href="${mainCSS}" rel="stylesheet" />
 
     
 <title>GEO</title>
 </head>
 <body>
-<h1>Send your query</h1>
-<a href=/geo/heat>Heat map</a>
-
-<div id="msg"></div>
-<div id="map"></div>
+<h1>Elige una consulta</h1>
+<div class="queries">
+	<a href=/geo/heat>Mapa de calor</a>
+	<a href=/geo>Distancia recorrida</a>
+	<a href=/geo>Puntos de detención</a>
+	<a href=/geo>Días de permanencia</a>
+	<a href=/geo>Mapa de rutas</a>
+</div>
 
 </body>
 </html>
