@@ -1,6 +1,11 @@
 package es.borja.geo.controller;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +52,25 @@ public class HeatController {
 		JSONObject outputJsonObj = new JSONObject();
 		JSONObject content = new JSONObject();
 		
-		String q = "heat;" + lat + ";" + lon + ";" + radius + ";" + dateFrom + ";" + dateTo;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		DateFormat dfo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+		df.setTimeZone(TimeZone.getDefault());
+        Date dateF = null;
+        Date dateT = null;
+        String dfr = null;
+        String dto = null;
+        try {
+			dateF = df.parse(dateFrom);
+			dateT = df.parse(dateTo);
+			dfr = dfo.format(dateF);
+			dto = dfo.format(dateT);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+
+		
+		String q = "heat;" + lat + ";" + lon + ";" + radius + ";" + dfr + ";" + dto;
 		content.put("type","CUSTOM");
 		content.put("message", q);
 		outputJsonObj.put("content", content);

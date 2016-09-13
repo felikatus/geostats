@@ -16,11 +16,11 @@
 <body>
 <h1>Elige una consulta</h1>
 <div class="queries">
-	<a href=/geo/heat>Mapa de calor</a>
-	<a href=/geo>Distancia recorrida</a>
-	<a href=/geo>Puntos de detención</a>
-	<a href=/geo>Días de permanencia</a>
-	<a href=/geo>Mapa de rutas</a>
+	<a href=heat>Mapa de calor</a>
+	<a href=>Distancia recorrida</a>
+	<a href=>Puntos de detención</a>
+	<a href=>Días de permanencia</a>
+	<a href=>Mapa de rutas</a>
 </div>
 
 </body>

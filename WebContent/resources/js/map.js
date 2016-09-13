@@ -32,8 +32,7 @@ function getPoints() {
 		result.push(point);
 
 	}
-	alert(result);
-	  return result;
+	return result;
 }
 	
 jQuery(document).ready(function($) {
