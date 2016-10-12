@@ -13,7 +13,7 @@ function initMap() {
 		    data: getPoints(),
 		    map: map
 		  });
-	  heatmap.set('radius', heatmap.get('radius') ? null : 10);
+	  heatmap.set('radius', heatmap.get('radius') ? null : 25);
 }
 	
 
@@ -27,13 +27,25 @@ function getPoints() {
 		loc = locations[i].split("#");
 		var point = {
 				location: new google.maps.LatLng(loc[0], loc[1]), 
-				weight: loc[2]
+				weight: +loc[2]
 		}
 		result.push(point);
 
 	}
 	return result;
 }
+
+//function getPoints() {
+//	var result = [];
+//	var locations = myModel.locations;
+//	locations = locations.slice(1, -1);
+//	locations = locations.split(",");
+//	for (i in locations) {
+//		loc = locations[i].split("#");
+//		result.push(new google.maps.LatLng(loc[0], loc[1]));
+//	}
+//	return result;
+//}
 	
 jQuery(document).ready(function($) {
 	

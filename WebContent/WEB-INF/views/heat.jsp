@@ -27,7 +27,7 @@
 
 
 
-<form action="/submitHeatForm" method="post">
+<form action="submitHeatForm" method="post">
 	<label>Latitud origen: <input id="originLatitude" type="text" name="lat" value="39.4720026" /></label>
 	<label>Longitud origen: <input id="originLongitude" type="text" name="lon" value="-6.3901787" /></label>
 	<label>Radio: <input id="radius" type="text" name="radius" value="10" /></label>
