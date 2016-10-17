@@ -35,6 +35,7 @@
 	<label>Hasta: <input name = "dateTo" class="flatpickr" id="dateTo" data-enable-time=true data-time_24hr=true></label>
 <!-- 	<label>Date range from: <input type="text" name ="dateFrom" value="2016-04-12T09:00+0000"/></label> -->
 <!-- 	<label>Date range to: <input type="text" name="dateTo" value="2016-06-15T12:30+0000" /></label> -->
+	<p>La consulta tardará unos segundos en recibir los datos</p>
 	<input id="submit" type="submit" value="Enviar" />
 </form>
 <div id="locationpicker" style="width: 500px; height: 400px;"></div>

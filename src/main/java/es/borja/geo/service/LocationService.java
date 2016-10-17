@@ -28,5 +28,11 @@ public class LocationService implements ILocationService{
     	Location[] locations = results.toArray(new Location[results.size()]);
         return locations;
     }
+    
+    public Location[] findHeatLocations(String timehi, String timelo, Double n, Double e, Double s, Double w) {
+    	List<Location> results = locationDAO.getHeat(timehi, timelo, n, e, s, w);
+    	Location[] locations = results.toArray(new Location[results.size()]);
+    	return locations;
+    }
 
 }

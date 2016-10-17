@@ -14,5 +14,7 @@ public interface ILocationDAO {
 	public void save(Location data);
 
 	List<Location> getData();
+	
+	List<Location> getHeat(String timelo, String timehi, Double n, Double e, Double s, Double w);
 		
 }

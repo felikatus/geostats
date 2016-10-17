@@ -1,4 +1,5 @@
 package es.borja.geo.controller;
+import java.awt.geom.Point2D;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -95,11 +96,11 @@ public class HeatController {
 		model.addObject("dateFrom", dateFrom);
 		model.addObject("dateTo", dateTo);
 		
-//		try {
-//			Thread.sleep(10000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return model;
 
 	}
@@ -112,8 +113,22 @@ public class HeatController {
 		model.addObject("radius", radius);
 		model.addObject("dateFrom", dateFrom);
 		model.addObject("dateTo", dateTo);
+		
+		double range = Double.parseDouble(radius);
+		
+        Point2D origin = new Point2D.Float(Float.parseFloat(lat), Float.parseFloat(lon));
+        Point2D north = calculateDerivedPosition(origin, range, 0);
+        Point2D east = calculateDerivedPosition(origin, range, 90);
+        Point2D south = calculateDerivedPosition(origin, range, 180);
+        Point2D west = calculateDerivedPosition(origin, range, 270);
+        
+        Double n = north.getX();
+        Double e = east.getY();
+        Double s = south.getX();
+        Double w = west.getY();
+        
 
-		Location[] locations = locationService.findAllLocations();
+		Location[] locations = locationService.findHeatLocations(dateFrom, dateTo, n, e, s, w);
 		List<String> results = new ArrayList<String>();
 		
 		for (int i =0; i < locations.length; i++){
@@ -122,6 +137,35 @@ public class HeatController {
 		
 		model.addObject("locations", results);
 		return model;
+	}
+	
+	private static Point2D calculateDerivedPosition(Point2D point, double range, double bearing){
+		double EarthRadius = 6371000; // m
+		
+		double latA = Math.toRadians(point.getX());
+		double lonA = Math.toRadians(point.getY());
+		double angularDistance = range / EarthRadius;
+		double trueCourse = Math.toRadians(bearing);
+		
+		double lat = Math.asin(
+		Math.sin(latA) * Math.cos(angularDistance) +
+		Math.cos(latA) * Math.sin(angularDistance)
+		* Math.cos(trueCourse));
+		
+		double dlon = Math.atan2(
+		Math.sin(trueCourse) * Math.sin(angularDistance)
+		* Math.cos(latA),
+		Math.cos(angularDistance) - Math.sin(latA) * Math.sin(lat));
+		
+		double lon = ((lonA + dlon + Math.PI) % (Math.PI * 2)) - Math.PI;
+		
+		lat = Math.toDegrees(lat);
+		lon = Math.toDegrees(lon);
+		
+		Point2D newPoint = new Point2D.Float((float) lat, (float) lon);
+		
+		return newPoint;
+	
 	}
 	
 }

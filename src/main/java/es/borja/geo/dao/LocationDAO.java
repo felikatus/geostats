@@ -3,6 +3,7 @@ package es.borja.geo.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import es.borja.geo.model.Location;
 
@@ -20,5 +21,18 @@ public class LocationDAO extends AbstractDAO<Integer, Location> implements ILoca
         List<Location> results = criteria.list();
         return results;
 	}
+    
+    @SuppressWarnings("unchecked")
+	public List<Location> getHeat(String timelo, String timehi, Double n, Double e, Double s, Double w) {
+    	Criteria criteria = createEntityCriteria()
+    		.add(Restrictions.between("time", timelo, timehi))
+    		.add(Restrictions.gt("lat", s))
+    		.add(Restrictions.lt("lat", n))
+    		.add(Restrictions.gt("lon", w))
+    		.add(Restrictions.lt("lon", e));
+    	List<Location> results = criteria.list();
+    	return results;
+    }
+
 	
 }

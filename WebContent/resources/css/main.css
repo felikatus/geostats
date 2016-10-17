@@ -30,3 +30,18 @@ h1 {
     text-align: center;
 }
 
+a.disabled {
+    pointer-events: none;
+}
+
+a[disabled]{
+	pointer-events: none;
+}
+
+a[disabled] {
+    background: gray;
+}
+
+a.disabled {
+    background: gray;
+}
