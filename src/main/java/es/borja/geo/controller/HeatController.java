@@ -203,11 +203,11 @@ public class HeatController {
 		
 		model.addObject("query", query);
 		
-//		try {
-//			Thread.sleep(20000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return model;
 
 	}
@@ -215,32 +215,8 @@ public class HeatController {
 	@RequestMapping(value = "/distanceTable", method = RequestMethod.GET)
 	public ModelAndView getDistancetTable(@RequestParam("query") String q) {
 		ModelAndView model = new ModelAndView();
-//		model.addObject("lat", lat);
-//		model.addObject("lon", lon);
-//		model.addObject("radius", radius);
-//		model.addObject("dateFrom", dateFrom);
-//		model.addObject("dateTo", dateTo);
-//		
-//		double range = Double.parseDouble(radius);
-//		
-//        Point2D origin = new Point2D.Float(Float.parseFloat(lat), Float.parseFloat(lon));
-//        Point2D north = calculateDerivedPosition(origin, range, 0);
-//        Point2D east = calculateDerivedPosition(origin, range, 90);
-//        Point2D south = calculateDerivedPosition(origin, range, 180);
-//        Point2D west = calculateDerivedPosition(origin, range, 270);
-//        
-//        Double n = north.getX();
-//        Double e = east.getY();
-//        Double s = south.getX();
-//        Double w = west.getY();
-//        
 		Distance[] distances = distanceService.findAllDistances();
-//		Location[] locations = locationService.findHeatLocations(dateFrom, dateTo, n, e, s, w);
-//		List<String> results = new ArrayList<String>();
-//		
-//		for (int i =0; i < locations.length; i++){
-//			results.add(locations[i].getLat().toString() + "#" +  locations[i].getLon().toString() + "#" + String.valueOf(locations[i].getQuantity()));		
-//		}
+
 		int totalDistance = 0;
 		for (int i = 0; i < distances.length; i++){
 			totalDistance += distances[i].getDistance();
