@@ -20,3 +20,19 @@ h1 {
     font-size: 3em;
     text-align: center;
 }
+
+table.distances {
+	display: table;
+	margin: auto;
+}
+
+table.distances th{
+    padding: 2px 40px 0 10px;
+    border: solid 2px black;	
+}
+
+table.distances td{
+    padding: 2px 40px 0 10px;
+    border: solid 2px black;	
+}
+

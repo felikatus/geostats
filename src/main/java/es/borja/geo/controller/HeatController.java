@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.borja.geo.model.Distance;
 import es.borja.geo.model.Location;
 import es.borja.geo.rest.EndpointInterface;
+import es.borja.geo.service.IDistanceService;
 import es.borja.geo.service.ILocationService;
 import es.borja.geo.service.LocationService;
 import retrofit.Callback;
@@ -33,6 +35,9 @@ public class HeatController {
 	
 	@Autowired
 	ILocationService locationService;
+	
+	@Autowired
+	IDistanceService distanceService;
 	
 	
 	@RequestMapping(value = "/heat", method = RequestMethod.GET)
@@ -136,6 +141,112 @@ public class HeatController {
 		}
 		
 		model.addObject("locations", results);
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/distance", method = RequestMethod.GET)
+	public ModelAndView getDistanceForm() {
+		ModelAndView model = new ModelAndView("distance");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitDistanceForm", method = RequestMethod.POST)
+	public ModelAndView submitDistanceForm(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("radius") String radius, @RequestParam("dateFrom") String dateFrom, @RequestParam("dateTo") String dateTo ) {
+		ModelAndView model = new ModelAndView("redirect:distanceTable");
+		int query = distanceService.getMaxQuery();
+	    RestAdapter restAdapter;
+	    restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://api.nimbees.com/nimbees_platform_server_api/")
+                .build();
+		EndpointInterface apiService = restAdapter.create(EndpointInterface.class);
+		JSONObject outputJsonObj = new JSONObject();
+		JSONObject content = new JSONObject();
+//		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		DateFormat dfo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+		df.setTimeZone(TimeZone.getDefault());
+        Date dateF = null;
+        Date dateT = null;
+        String dfr = null;
+        String dto = null;
+        try {
+			dateF = df.parse(dateFrom);
+			dateT = df.parse(dateTo);
+			dfr = dfo.format(dateF);
+			dto = dfo.format(dateT);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+
+		query++;
+		String q = "distance;" + lat + ";" + lon + ";" + radius + ";" + dfr + ";" + dto + ";" + query;
+		content.put("type","CUSTOM");
+		content.put("message", q);
+		outputJsonObj.put("content", content);
+		
+		apiService.sendNotification(outputJsonObj, new Callback<JSONObject>() {
+			@Override
+			public void failure(RetrofitError error) {
+				System.out.println("error");
+				
+			}
+
+			@Override
+			public void success(JSONObject arg0, Response arg1) {
+				System.out.println("success");
+				
+			}
+        });
+		
+		model.addObject("query", query);
+		
+//		try {
+//			Thread.sleep(20000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/distanceTable", method = RequestMethod.GET)
+	public ModelAndView getDistancetTable(@RequestParam("query") String q) {
+		ModelAndView model = new ModelAndView();
+//		model.addObject("lat", lat);
+//		model.addObject("lon", lon);
+//		model.addObject("radius", radius);
+//		model.addObject("dateFrom", dateFrom);
+//		model.addObject("dateTo", dateTo);
+//		
+//		double range = Double.parseDouble(radius);
+//		
+//        Point2D origin = new Point2D.Float(Float.parseFloat(lat), Float.parseFloat(lon));
+//        Point2D north = calculateDerivedPosition(origin, range, 0);
+//        Point2D east = calculateDerivedPosition(origin, range, 90);
+//        Point2D south = calculateDerivedPosition(origin, range, 180);
+//        Point2D west = calculateDerivedPosition(origin, range, 270);
+//        
+//        Double n = north.getX();
+//        Double e = east.getY();
+//        Double s = south.getX();
+//        Double w = west.getY();
+//        
+		Distance[] distances = distanceService.findAllDistances();
+//		Location[] locations = locationService.findHeatLocations(dateFrom, dateTo, n, e, s, w);
+//		List<String> results = new ArrayList<String>();
+//		
+//		for (int i =0; i < locations.length; i++){
+//			results.add(locations[i].getLat().toString() + "#" +  locations[i].getLon().toString() + "#" + String.valueOf(locations[i].getQuantity()));		
+//		}
+		int totalDistance = 0;
+		for (int i = 0; i < distances.length; i++){
+			totalDistance += distances[i].getDistance();
+		}
+		model.addObject("distances", distances);
+		model.addObject("total", totalDistance);
 		return model;
 	}
 	

@@ -24,7 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
+import es.borja.geo.model.Distance;
 import es.borja.geo.model.Location;
+import es.borja.geo.service.IDistanceService;
 import es.borja.geo.service.ILocationService;
 
 
@@ -35,6 +37,9 @@ public class LocationController {
 	
 	@Autowired
 	private ILocationService locationService;
+	
+	@Autowired
+	private IDistanceService distanceService;
 		
 	
 	@RequestMapping("/updateLocations")
@@ -66,6 +71,36 @@ public class LocationController {
 			    }
 		    }
 		}
+		return 1;
+	}
+	
+	@RequestMapping("/updateDistance")
+	public int saveDistance (@RequestBody String data) throws ParseException{
+		System.out.println(data);
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObj = (JSONObject) parser.parse(data);
+		Set<?> keys = jsonObj.keySet();
+		Iterator<?> iter = keys.iterator();
+		int query = 0;
+		int distance = 0;
+		while (iter.hasNext()) {
+		    String key = (String)iter.next();
+		    System.out.println(key);
+		    if (key.equals("query")) {
+		    	query = Integer.parseInt(jsonObj.get(key).toString());
+		    }
+		    else if (key.equals("distance")) {
+		    	distance = Integer.parseInt(jsonObj.get(key).toString());
+		    }
+		    	    
+		}
+		if (query != 0 && distance != 0) {
+			Distance d = new Distance();
+			d.setDistance(distance);
+			d.setQuery(query);
+			distanceService.save(d);
+		}
+		
 		return 1;
 	}
 	
