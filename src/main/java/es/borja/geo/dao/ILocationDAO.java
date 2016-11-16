@@ -16,5 +16,7 @@ public interface ILocationDAO {
 	List<Location> getData();
 	
 	List<Location> getHeat(String timelo, String timehi, Double n, Double e, Double s, Double w);
+	
+	List<Location> getStops(String timelo, String timehi, Double n, Double e, Double s, Double w);
 		
 }

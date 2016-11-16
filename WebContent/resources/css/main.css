@@ -6,6 +6,12 @@ html, body {
   padding: 0;
 }
 
+.queries {
+	display: table;
+	width: 100%;
+	margin: 0 0 25px 0;
+}
+
 .queries a {
 	color: white;
     padding: 2%;
@@ -20,6 +26,21 @@ html, body {
     text-align: center;
 }
 
+div.help {
+	font-family: arial;
+	display: table;
+    width: 90%;
+    margin: auto;
+    padding: 0 2%;
+    border: 2px solid #4183d8;
+}
+
+div.help h2 {
+	text-align: center;
+    font-family: arial;
+    font-size: 25px;
+}
+
 .queries a:hover {	
     background: #4343c3;
 }
@@ -29,6 +50,7 @@ h1 {
     font-size: 3em;
     text-align: center;
 }
+
 
 a.disabled {
     pointer-events: none;

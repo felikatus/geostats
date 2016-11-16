@@ -7,7 +7,7 @@
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Mapa de calor</title>
+	<title>Puntos de detención</title>
 	
 	    
     <script>
@@ -29,7 +29,7 @@
 
 </head>
 <body>
-<h1>Resultados del mapa de calor</h1>
+<h1>Resultados del mapa de puntos de detención</h1>
 <%-- <h2>${lat}</h2> --%>
 <!-- 		<ul> -->
 <%-- 			<c:forEach var="location" items="${locations}"> --%>

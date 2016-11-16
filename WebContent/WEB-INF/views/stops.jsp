@@ -28,10 +28,10 @@
 
 
 <div class="mapform">
-	<form action="submitHeatForm" method="post">
-		<label>Latitud origen: <input id="originLatitude" type="text" name="lat" value="39.4720026" required/></label>
-		<label>Longitud origen: <input id="originLongitude" type="text" name="lon" value="-6.3901787" required/></label>
-		<label>Radio: <input id="radius" type="text" name="radius" value="10" required/></label>
+	<form action="submitStopsForm" method="post">
+		<label>Latitud origen: <input id="originLatitude" type="text" name="lat" value="39.4720026" required /></label>
+		<label>Longitud origen: <input id="originLongitude" type="text" name="lon" value="-6.3901787"required /></label>
+		<label>Radio: <input id="radius" type="text" name="radius" value="10" required /></label>
 		<label>Desde: <input name = "dateFrom" class="flatpickr" id="dateFrom" data-enable-time=true data-time_24hr=true required></label>
 		<label>Hasta: <input name = "dateTo" class="flatpickr" id="dateTo" data-enable-time=true data-time_24hr=true required></label>
 	<!-- 	<label>Date range from: <input type="text" name ="dateFrom" value="2016-04-12T09:00+0000"/></label> -->
@@ -40,18 +40,7 @@
 		<input id="submit" type="submit" value="Enviar" />
 	</form>
 	<div id="locationpicker" style="width: 500px; height: 400px;"></div>
-</div>
-<div class="help">
-	<h2>Ayuda</h2>
-	<p>Se deben introducir datos para todos los campos del formulario:
-	<ul>
-	<li><strong>Latitud origen</strong>: Se introducirá el valor numérico de la latitud del punto de origen. También puede utilizarse el mapa de la parte izquierda para arrastrar y soltar el punto de origen dónde se desee. </li>
-	<li><strong>Latitud destino</strong>: Se introducirá el valor numérico de la longitud del punto de origen. También puede utilizarse el mapa de la parte izquierda para arrastrar y soltar el punto de origen dónde se desee.</li>
-	<li><strong>Radio</strong>: Valor numérico en metros del radio del área de la consulta desde el punto de origen.</li>
-	<li><strong>Desde y hasta</strong>: Fecha y hora finales e iniciales para el rango temporal de la consulta. El valor de "Desde" tiene que ser anterior al valor de "Hasta".</li>
-	</ul>
-	<p>Se utilizará el botón enviar para enviar los parámetros introducidos, la respuesta tardará unos segundos.</p>
-</div>
+</div> 
 <a class="return" href="/">Volver a inicio</a>
 <script>
 $('#dateFrom').flatpickr({

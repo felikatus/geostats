@@ -23,26 +23,30 @@
 	<script src="${flatpickrJs}"></script>
 </head>
 <body>
-<h1>Elige los parámetros de tu consulta</h1>
-
-
-
-<form action="submitDistanceForm" method="post">
-	<label>Latitud origen: <input id="originLatitude" type="text" name="lat" value="39.4720026" /></label>
-	<label>Longitud origen: <input id="originLongitude" type="text" name="lon" value="-6.3901787" /></label>
-	<label>Radio: <input id="radius" type="text" name="radius" value="10" /></label>
-	<label>Desde: <input name = "dateFrom" class="flatpickr" id="dateFrom" data-enable-time=true data-time_24hr=true></label>
-	<label>Hasta: <input name = "dateTo" class="flatpickr" id="dateTo" data-enable-time=true data-time_24hr=true></label>
-<!-- 	<label>Date range from: <input type="text" name ="dateFrom" value="2016-04-12T09:00+0000"/></label> -->
-<!-- 	<label>Date range to: <input type="text" name="dateTo" value="2016-06-15T12:30+0000" /></label> -->
-	<p>La consulta tardará unos segundos en recibir los datos</p>
-	<input id="submit" type="submit" value="Enviar" />
-</form>
-<div id="locationpicker" style="width: 500px; height: 400px;"></div>
-  
+<h1>Distancias</h1>
+<h2>Elige los parámetros de tu consulta</h2>
+<div class="mapform">
+	<form action="submitDistanceForm" method="post">
+		<label>Latitud origen: <input id="originLatitude" type="text" name="lat" value="39.4720026" required/></label>
+		<label>Longitud origen: <input id="originLongitude" type="text" name="lon" value="-6.3901787" required/></label>
+		<label>Radio: <input id="radius" type="text" name="radius" value="10" required/></label>
+		<label>Desde: <input name = "dateFrom" class="flatpickr" id="dateFrom" data-enable-time=true data-time_24hr=true ></label>
+		<label>Hasta: <input name = "dateTo" class="flatpickr" id="dateTo" data-enable-time=true data-time_24hr=true ></label>
+	<!-- 	<label>Date range from: <input type="text" name ="dateFrom" value="2016-04-12T09:00+0000"/></label> -->
+	<!-- 	<label>Date range to: <input type="text" name="dateTo" value="2016-06-15T12:30+0000" /></label> -->
+		<p>La consulta tardará unos segundos en recibir los datos</p>
+		<input id="submit" type="submit" value="Enviar" />
+	</form>
+	<div id="locationpicker" style="width: 500px; height: 400px;"></div>
+</div>
+<a class="return" href="/">Volver a inicio</a>
 <script>
-$('#dateFrom').flatpickr();
-$('#dateTo').flatpickr();
+$('#dateFrom').flatpickr({
+	defaultDate: "2016-06-01T09:00+0000",
+});
+$('#dateTo').flatpickr({
+	defaultDate: "2016-06-30T09:00+0000",
+});
 $('#locationpicker').locationpicker({
 	location: {latitude: 39.4720026, longitude: -6.3901787},
 	radius: 300,

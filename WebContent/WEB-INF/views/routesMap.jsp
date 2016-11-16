@@ -7,7 +7,7 @@
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Mapa de calor</title>
+	<title>Mapa de rutas</title>
 	
 	    
     <script>
@@ -18,18 +18,18 @@
 	</script>
 	
     <spring:url value="/resources/js/jquery-3.0.0.js" var="jqueryJs" />
-    <spring:url value="/resources/js/map.js" var="mapJs" />
+    <spring:url value="/resources/js/routes.js" var="routesJs" />
     <spring:url value="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2iNxTB_yhdK6DmBRid3bj4QtCmfxRHS8&signed_in=true&libraries=visualization&callback=initMap" var="gmapi" />
     <spring:url value="/resources/css/results.css" var="resultsCSS" />
 
     <script src="${jqueryJs}"></script>
-    <script src="${mapJs}"></script>
+    <script src="${routesJs}"></script>
     <link href="${resultsCSS}" rel="stylesheet" />
     
 
 </head>
 <body>
-<h1>Resultados del mapa de calor</h1>
+<h1>Resultados del mapa de rutas</h1>
 <%-- <h2>${lat}</h2> --%>
 <!-- 		<ul> -->
 <%-- 			<c:forEach var="location" items="${locations}"> --%>

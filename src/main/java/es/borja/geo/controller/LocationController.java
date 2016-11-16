@@ -26,8 +26,10 @@ import com.google.gson.JsonElement;
 
 import es.borja.geo.model.Distance;
 import es.borja.geo.model.Location;
+import es.borja.geo.model.RoutePoint;
 import es.borja.geo.service.IDistanceService;
 import es.borja.geo.service.ILocationService;
+import es.borja.geo.service.IRoutePointService;
 
 
 
@@ -40,12 +42,13 @@ public class LocationController {
 	
 	@Autowired
 	private IDistanceService distanceService;
+	
+	@Autowired
+	private IRoutePointService routePointService;
 		
 	
 	@RequestMapping("/updateLocations")
 	public int saveLocation (@RequestBody String data) throws ParseException{
-		System.out.println(data);
-		
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObj = (JSONObject) parser.parse(data);
 		Set<?> keys = jsonObj.keySet();
@@ -76,7 +79,6 @@ public class LocationController {
 	
 	@RequestMapping("/updateDistance")
 	public int saveDistance (@RequestBody String data) throws ParseException{
-		System.out.println(data);
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObj = (JSONObject) parser.parse(data);
 		Set<?> keys = jsonObj.keySet();
@@ -104,4 +106,35 @@ public class LocationController {
 		return 1;
 	}
 	
+	@RequestMapping("/updateRoutes")
+	public int saveRoutes (@RequestBody String data) throws ParseException{
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObj = (JSONObject) parser.parse(data);
+		Set<?> keys = jsonObj.keySet();
+		Iterator<?> iter = keys.iterator();
+		String device = (String) jsonObj.get("device");
+		
+		while (iter.hasNext()) {
+		    String key = (String)iter.next();
+		    if ( jsonObj.get(key) instanceof JSONObject ) {
+				JSONObject j = (JSONObject) jsonObj.get(key);
+				Set<?> keys2 = j.keySet();
+				Iterator<?> iter2 = keys2.iterator();
+				while (iter2.hasNext()) {
+					String key2 = (String) iter2.next();
+					String[] parts = key2.split(",");
+					Double lat = Double.parseDouble(parts[0]);
+					Double lon = Double.parseDouble(parts[1]);
+					RoutePoint p = new RoutePoint();
+					p.setDevice(device);
+					p.setLat(lat);
+					p.setLon(lon);
+					p.setTime(key);
+					p.setQuantity((Integer.parseInt(j.get(key2).toString())));
+					routePointService.save(p);
+			    }
+		    }
+		}
+		return 1;
+	}
 }

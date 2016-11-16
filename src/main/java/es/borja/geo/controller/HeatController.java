@@ -19,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.borja.geo.model.Distance;
 import es.borja.geo.model.Location;
+import es.borja.geo.model.RoutePoint;
 import es.borja.geo.rest.EndpointInterface;
 import es.borja.geo.service.IDistanceService;
 import es.borja.geo.service.ILocationService;
+import es.borja.geo.service.IRoutePointService;
 import es.borja.geo.service.LocationService;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -38,6 +40,9 @@ public class HeatController {
 	
 	@Autowired
 	IDistanceService distanceService;
+	
+	@Autowired
+	IRoutePointService routePointService;
 	
 	
 	@RequestMapping(value = "/heat", method = RequestMethod.GET)
@@ -223,6 +228,235 @@ public class HeatController {
 		}
 		model.addObject("distances", distances);
 		model.addObject("total", totalDistance);
+		return model;
+	}
+	
+	
+	
+	@RequestMapping(value = "/stops", method = RequestMethod.GET)
+	public ModelAndView getStopForm() {
+		ModelAndView model = new ModelAndView("stops");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitStopsForm", method = RequestMethod.POST)
+	public ModelAndView submitStopForm(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("radius") String radius, @RequestParam("dateFrom") String dateFrom, @RequestParam("dateTo") String dateTo ) {
+		ModelAndView model = new ModelAndView("redirect:stopsMap");
+	    RestAdapter restAdapter;
+	    restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://api.nimbees.com/nimbees_platform_server_api/")
+                .build();
+		EndpointInterface apiService = restAdapter.create(EndpointInterface.class);
+		JSONObject outputJsonObj = new JSONObject();
+		JSONObject content = new JSONObject();
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		DateFormat dfo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+		df.setTimeZone(TimeZone.getDefault());
+        Date dateF = null;
+        Date dateT = null;
+        String dfr = null;
+        String dto = null;
+        try {
+			dateF = df.parse(dateFrom);
+			dateT = df.parse(dateTo);
+			dfr = dfo.format(dateF);
+			dto = dfo.format(dateT);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+
+		
+		String q = "stop;" + lat + ";" + lon + ";" + radius + ";" + dfr + ";" + dto;
+		content.put("type","CUSTOM");
+		content.put("message", q);
+		outputJsonObj.put("content", content);
+		
+		apiService.sendNotification(outputJsonObj, new Callback<JSONObject>() {
+			@Override
+			public void failure(RetrofitError error) {
+				System.out.println("error");
+				
+			}
+
+			@Override
+			public void success(JSONObject arg0, Response arg1) {
+				System.out.println("success");
+				
+			}
+        });
+		
+		model.addObject("lat", lat);
+		model.addObject("lon", lon);
+		model.addObject("radius", radius);
+		model.addObject("dateFrom", dateFrom);
+		model.addObject("dateTo", dateTo);
+		
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return model;
+
+
+	}
+	
+	@RequestMapping(value = "/stopsMap", method = RequestMethod.GET)
+	public ModelAndView getStopsMap(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("radius") String radius, @RequestParam("dateFrom") String dateFrom, @RequestParam("dateTo") String dateTo ) {
+			ModelAndView model = new ModelAndView();
+		model.addObject("lat", lat);
+		model.addObject("lon", lon);
+		model.addObject("radius", radius);
+		model.addObject("dateFrom", dateFrom);
+		model.addObject("dateTo", dateTo);
+		
+		double range = Double.parseDouble(radius);
+		
+        Point2D origin = new Point2D.Float(Float.parseFloat(lat), Float.parseFloat(lon));
+        Point2D north = calculateDerivedPosition(origin, range, 0);
+        Point2D east = calculateDerivedPosition(origin, range, 90);
+        Point2D south = calculateDerivedPosition(origin, range, 180);
+        Point2D west = calculateDerivedPosition(origin, range, 270);
+        
+        Double n = north.getX();
+        Double e = east.getY();
+        Double s = south.getX();
+        Double w = west.getY();
+        
+
+		Location[] locations = locationService.findStopLocations(dateFrom, dateTo, n, e, s, w);
+		List<String> results = new ArrayList<String>();
+		
+		for (int i =0; i < locations.length; i++){
+			results.add(locations[i].getLat().toString() + "#" +  locations[i].getLon().toString() + "#" + String.valueOf(locations[i].getQuantity()));		
+		}
+		
+		model.addObject("locations", results);
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/routes", method = RequestMethod.GET)
+	public ModelAndView getRoutesForm() {
+		ModelAndView model = new ModelAndView("routes");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitRoutesForm", method = RequestMethod.POST)
+	public ModelAndView submitRoutesForm(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("radius") String radius, @RequestParam("dateFrom") String dateFrom, @RequestParam("dateTo") String dateTo ) {
+		ModelAndView model = new ModelAndView("redirect:routesMap");
+	    RestAdapter restAdapter;
+	    restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://api.nimbees.com/nimbees_platform_server_api/")
+                .build();
+		EndpointInterface apiService = restAdapter.create(EndpointInterface.class);
+		JSONObject outputJsonObj = new JSONObject();
+		JSONObject content = new JSONObject();
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		DateFormat dfo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+		df.setTimeZone(TimeZone.getDefault());
+        Date dateF = null;
+        Date dateT = null;
+        String dfr = null;
+        String dto = null;
+        try {
+			dateF = df.parse(dateFrom);
+			dateT = df.parse(dateTo);
+			dfr = dfo.format(dateF);
+			dto = dfo.format(dateT);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+
+		
+		String q = "routes;" + lat + ";" + lon + ";" + radius + ";" + dfr + ";" + dto;
+		content.put("type","CUSTOM");
+		content.put("message", q);
+		outputJsonObj.put("content", content);
+		
+		apiService.sendNotification(outputJsonObj, new Callback<JSONObject>() {
+			@Override
+			public void failure(RetrofitError error) {
+				System.out.println("error");
+				
+			}
+
+			@Override
+			public void success(JSONObject arg0, Response arg1) {
+				System.out.println("success");
+				
+			}
+        });
+		
+		model.addObject("lat", lat);
+		model.addObject("lon", lon);
+		model.addObject("radius", radius);
+		model.addObject("dateFrom", dateFrom);
+		model.addObject("dateTo", dateTo);
+		
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/routesMap", method = RequestMethod.GET)
+	public ModelAndView getRoutesMap(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("radius") String radius, @RequestParam("dateFrom") String dateFrom, @RequestParam("dateTo") String dateTo ) {
+		ModelAndView model = new ModelAndView();
+		model.addObject("lat", lat);
+		model.addObject("lon", lon);
+		model.addObject("radius", radius);
+		model.addObject("dateFrom", dateFrom);
+		model.addObject("dateTo", dateTo);
+		
+		double range = Double.parseDouble(radius);
+		
+        Point2D origin = new Point2D.Float(Float.parseFloat(lat), Float.parseFloat(lon));
+        Point2D north = calculateDerivedPosition(origin, range, 0);
+        Point2D east = calculateDerivedPosition(origin, range, 90);
+        Point2D south = calculateDerivedPosition(origin, range, 180);
+        Point2D west = calculateDerivedPosition(origin, range, 270);
+        
+        Double n = north.getX();
+        Double e = east.getY();
+        Double s = south.getX();
+        Double w = west.getY();
+        
+
+		RoutePoint[] routePoints = routePointService.findRouteLocations(dateFrom, dateTo, n, e, s, w);
+		
+		List<List<String>> results = new ArrayList<List<String>>();
+		
+		List<String> r = new ArrayList<String>();
+		
+		String lastDevice = "";
+		
+		if (routePoints.length > 0) {
+			lastDevice = routePoints[0].getDevice();
+		}
+		for (int i =0; i < routePoints.length; i++){ //Recorremos todos los resultados
+			if (lastDevice.equals(routePoints[i].getDevice())){ //Si el device no ha cambiado (viene ordenado)
+				r.add(routePoints[i].getLat().toString() + "#" +  routePoints[i].getLon().toString());	
+			}
+			else { //Device ha cambiado, guardamos la lista y comenzamos otra
+				results.add(r);
+				r = new ArrayList<String>();
+				r.add(routePoints[i].getLat().toString() + "#" +  routePoints[i].getLon().toString());	
+				lastDevice = routePoints[i].getDevice();
+			}
+		}
+		results.add(r); //add last list
+		
+		model.addObject("locations", results);
 		return model;
 	}
 	
