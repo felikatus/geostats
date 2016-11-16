@@ -23,6 +23,13 @@ div.mapform {
     margin: 0 17% 30px;
 }
 
+div.mapform form div{
+	display: block;
+	width: 100%;
+	float: left;
+	margin: 10px;
+}
+
 form {
     display: block;
     float: left;
@@ -32,7 +39,7 @@ form {
 label {
     display: block;
     float: left;
-    margin: 10px;
+
     font-family: fantasy;
     font-size: 25px;
 }
@@ -40,7 +47,7 @@ label {
 input {
 	height: 32px;
     display: block;
-    float: right;
+    float: left;
     padding: 0 0 0 14px;
     margin: 0 0 0 14px;
 }
@@ -65,13 +72,16 @@ input {
 
 #locationpicker {
 	display: block;
-	float: left;
-	width: 50%;
+	float: right;
+	width: 50% !important;
+	min-width: 300px;
+	
 }
 
 form p {
 	float: left;
 	width: 100%;
+	margin: 10px
 }
 
 div.help {
@@ -98,3 +108,113 @@ a.return {
     font-family: arial;
 }
 
+
+
+
+@media (max-width: 1024px) {
+	#locationpicker {
+		height: 340px !important;
+	}
+	label {
+	    display: block;
+	    float: left;
+	    font-family: fantasy;
+	    font-size: 20px;
+	}
+	
+	input {
+		height: 20px;
+	    display: block;
+	    float: left;
+	    padding: 0 0 0 14px;
+	    margin: 0 0 0 14px;
+	}
+	div.mapform {
+		display: table;
+	    width: 90%;
+	    margin: 0 5% 30px;
+	}
+	
+	div.help {
+		font-family: arial;
+		display: table;
+	    width: 90%;
+	    margin: auto;
+	    padding: 0 2%;
+	    border: 2px solid #4183d8;
+	}
+}
+
+
+@media (max-width: 850px) {
+	
+	#locationpicker {
+		display: block;
+		float: left;
+		width: 100% !important;
+		height: 340px !important;
+	}
+
+	form {
+	    display: table;
+	    margin: 0 auto;
+	    width: 50%;
+	    float: none;
+	}
+	#submit {
+	    color: white;
+	    background-color: #4183d8;
+	    width: 53%;
+	    height: 50px;
+	    font-family: fantasy;
+	    font-size: 22px;
+	    display: table;
+	    margin: 0 auto;
+	    float: none;
+	}
+	label {
+	    display: block;
+	    float: left;
+	    font-family: fantasy;
+	    font-size: 25px;
+	}
+	
+	input {
+		height: 32px;
+	    display: block;
+	    float: right;
+	    padding: 0 0 0 14px;
+	    margin: 0 0 0 14px;
+	}
+	div.mapform {
+		display: table;
+	    width: 90%;
+	    margin: 0 5% 30px;
+	}
+	
+	div.help {
+		font-family: arial;
+		display: table;
+	    width: 90%;
+	    margin: auto;
+	    padding: 0 2%;
+	    border: 2px solid #4183d8;
+	}
+}
+
+@media (max-width: 673px) {
+	label {
+	    display: block;
+	    float: left;
+	    font-family: fantasy;
+	    font-size: 20px;
+	    width: 100%
+	}
+	
+	input {
+		height: 20px;
+		float: left;
+		margin: 0;
+		width: 100%;
+	}
+}
